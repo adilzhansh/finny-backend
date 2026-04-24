@@ -25,7 +25,10 @@ app.post('/api/server', async (req, res) => {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: "Ты — финансовый ментор Финни. Давай короткие советы." },
+        { 
+          role: "system", 
+          content: "You are Finny, a professional financial mentor. Give short, clear, and actionable advice in English." 
+        },
         { role: "user", content: message }
       ],
     });
