@@ -2,13 +2,10 @@ import express from 'express';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import serverless from 'serverless-http'; // Новый импорт
 
 dotenv.config();
 
 const app = express();
-const router = express.Router(); // Используем роутер для Netlify
-
 app.use(cors());
 app.use(express.json());
 
@@ -16,8 +13,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Все пути теперь будут начинаться с /.netlify/functions/server
-router.post('/chat', async (req, res) => {
+// Путь будет просто /api/server
+app.post('/api/server', async (req, res) => {
   const { message } = req.body;
   try {
     const stream = await openai.chat.completions.create({
@@ -40,6 +37,4 @@ router.post('/chat', async (req, res) => {
   }
 });
 
-app.use('/.netlify/functions/server', router);
-
-export const handler = serverless(app); // Экспортируем для Netlify
+export default app;
